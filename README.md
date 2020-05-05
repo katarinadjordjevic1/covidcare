@@ -17,3 +17,7 @@ To start a web server for the application, run:
 ## License
 
 Copyright © 2020 FIXME
+
+## database
+
+mysql is needed, a database names "covidcare" is needed, user/pass have to be set in database/db-config and in database/migratus-conf.edn

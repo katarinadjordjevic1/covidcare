@@ -10,7 +10,14 @@
                  [korma "0.4.3"]                 
                  [hiccup "1.0.5"]
                  [buddy/buddy-auth "2.2.0"]]
-  :plugins [[lein-ring "0.12.5"]]
+
+  :plugins [[lein-ring "0.12.5"]
+            [migratus-lein "0.7.3"]]
+
+  :migratus {:store :database
+             :migration-dir "migrations"
+             :db (clojure.edn/read-string (slurp "database/migratus-conf.edn"))}
+
   :ring {:handler covidcare.handler/app}
   :profiles
   {:dev {:dependencies [[javax.servlet/servlet-api "2.5"]
