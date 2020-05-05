@@ -3,12 +3,13 @@
             [compojure.route :as route]            
             [buddy.auth.backends.session :refer [session-backend]]
             [buddy.auth.middleware :refer [wrap-authentication wrap-authorization]]
-            [ring.middleware.defaults :refer [wrap-defaults site-defaults]])
+            [ring.middleware.defaults :refer [wrap-defaults site-defaults]]
+            [covidcare.view :as v])
   (:use [clojure.pprint]))
 
 
 (defroutes app-routes
-  (GET "/" [] "Hello World")
+  (GET "/" req (v/login req))
   (route/not-found "Not Found"))
 
 
