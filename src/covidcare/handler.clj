@@ -4,12 +4,15 @@
             [buddy.auth.backends.session :refer [session-backend]]
             [buddy.auth.middleware :refer [wrap-authentication wrap-authorization]]
             [ring.middleware.defaults :refer [wrap-defaults site-defaults]]
+            [ring.middleware.json :refer [wrap-json-response]]
+            [covidcare.rootroute :refer [root-routes]]
+            [covidcare.mainroute :refer [main-routes]]
             [covidcare.view :as v])
   (:use [clojure.pprint]))
 
 
 (defroutes app-routes
-  (GET "/" req (v/login req))
+  (route/resources "/")
   (route/not-found "Not Found"))
 
 
@@ -27,8 +30,9 @@
 
 
 (def app
-  (-> app-routes
-      (req-res-displayer)
+  (-> (routes root-routes main-routes app-routes)
+      (wrap-json-response)
+      ;;(req-res-displayer)
       (wrap-authentication backend)
       (wrap-authorization backend)
       (wrap-defaults (assoc-in site-defaults [:security :anti-forgery] false))))

@@ -19,3 +19,6 @@
 
 (defn get-all-schedules[]
   (k/select schedule))
+
+(defn get-user-by-params [params]
+  (k/select user (k/where params)))

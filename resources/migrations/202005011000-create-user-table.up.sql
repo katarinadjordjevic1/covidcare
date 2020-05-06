@@ -12,4 +12,6 @@ CREATE TABLE user(
 insert into user(userid,firstname,lastname,username,password,email,role) values
 (1,'John','Smith','john','123','johnsmith@gmail.com','admin'),
 (2,'George','Martin','george','123','georgemartin@gmail.com','user'),
-(3,'Thomas','Lucas','thomas','123','tomluc@gmail.com','user');
+(3,'Thomas','Lucas','thomas','123','tomluc@gmail.com','user'),
+(4,'User','User','user','user','user@gmail.com','user'),
+(5,'Admin','Admin','admin','admin','admin@gmail.com','admin');
