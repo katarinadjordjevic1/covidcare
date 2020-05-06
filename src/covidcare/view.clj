@@ -1,6 +1,6 @@
 (ns covidcare.view
   (:require [hiccup.core :refer [html]]
-            [hiccup.page :refer [include-css]]
+            [hiccup.page :refer [include-css include-js]]
             [covidcare.database :as db]
             [buddy.auth :refer [authenticated?]]))
 
@@ -44,7 +44,9 @@
 
 (defn scheduleitem [schedule]
   (println "scheduleitem" schedule)
-  [:div {:class "scheduleitem"} (str "From : " (:fromdate schedule) " To : " (:todate schedule) " Helper : " (:userid schedule) " Helpee :" (:helpee schedule)) " Reserve"])
+  [:div {:class "scheduleitem"
+         :onclick "getConfirmation();"
+         } (str "From : " (:fromdate schedule) " To : " (:todate schedule) " Helper : " (:userid schedule) " Helpee :" (:helpee schedule)) " Reserve"])
 
 
 (defn schedules [session]
@@ -54,6 +56,7 @@
      [:head
       [:title "Covid Care Schedules"]
       (include-css "style.css")
+      (include-js "popup.js")
       [:div {:class "mainpanel"}
        (menuview session)
        [:p "Active Offers"]
