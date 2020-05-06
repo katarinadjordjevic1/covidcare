@@ -13,11 +13,11 @@
 
 (defn login-submit [{{user :username pass :password :as params} :params session :session}]
   (if (or (nil? user) (nil? pass))
-    (v/login "Invalid username or password")
+    (v/login "No username or password")
     (let [dbparams (if (nil? (validate-email user)) {:username user :password pass} {:email user :password pass})
           userdata (first (db/get-user-by-params dbparams))]
       (if (empty? userdata)
-        (v/login "Invalud username or password")
+        (v/login "Invalid username or password")
         (assoc (redirect "/schedules") :session (assoc session :identity userdata))))))
   
 

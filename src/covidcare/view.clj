@@ -13,32 +13,38 @@
 (defn login [error]
   (html
    [:head
-    [:title "login"]
+    [:title "Covid Care Login"]
     (include-css "style.css")
     [:div {:class "loginpanel"}
      [:h1 "Covid Care"]
-     [:h1 "Offer Service / Request Service"]
-     (if error [:h1 (str "Error: " error)])
+     [:h2 "Offer Service / Request Service"]
+     (if error [:e1 (str "Error: " error)])
      [:div {:class "center"}
       [:form {:method "post" :action ""}
        [:br]
-       [:div {:class "logininputlabel"} "Username/Email:"]
+       [:div {:class "logininputlabel"} "Username/Email"]
        [:input {:class "logininput" :type "text" :name "username"}]
        [:br]
-       [:div {:class "logininputlabel"} "Password:"]
+       [:div {:class "logininputlabel"} "Password"]
        [:input {:class "logininput" :type "text" :name "password"}]
        [:br][:br]
        [:input {:class "center" :type "submit" :value "submit"}]]
-      [:h1 "user/user or admin/admin"]
+      [:br][:br]
+      [:div {:class "center"} "(user/user or admin/admin)"]
       ]]]))
 
 
 (defn menuview [session]
-  [:div {:class "menu"}
-   [:a {:href "/schedules"} "Schedules / "] 
-   [:a {:href "/offers"} "Offers / "]
-   [:a {:href "/logout"} "Logout"]
-   (if (is-admin? session)[:a {:href "/admin"} " / Admin"])])
+  [:div {:class "menubar"}
+   [:div {:class "menubutton"} [:a {:href "/schedules"} "Schedules"]]
+   [:div {:class "menubutton"} [:a {:href "/offers"} "Offers"]]
+   [:div {:class "menubutton"} [:a {:href "/logout"} "Logout"]]
+   (if (is-admin? session) [:div {:class "menubutton"} [:a {:href "/admin"} "Admin"]])])
+
+
+(defn scheduleitem [schedule]
+  (println "scheduleitem" schedule)
+  [:div {:class "scheduleitem"} (str "From : " (:fromdate schedule) " To : " (:todate schedule) " Helper : " (:userid schedule) " Helpee :" (:helpee schedule)) " Reserve"])
 
 
 (defn schedules [session]
@@ -46,19 +52,19 @@
     (println "schedules" schedules)
     (html
      [:head
-      [:title "main"]
+      [:title "Covid Care Schedules"]
       (include-css "style.css")
-      [:div
+      [:div {:class "mainpanel"}
        (menuview session)
        [:p "Active Offers"]
        [:div
-        (map (fn [schedule] [:p (str schedule "Reserve") ]) schedules)]
+        (map (fn [schedule] (scheduleitem schedule)) schedules)]
        [:p "Active Requests"]
        [:div
-        (map (fn [schedule] [:p (str schedule "Apply") ]) schedules)]
+        (map (fn [schedule] (scheduleitem schedule)) schedules)]
        [:p "Already Reserved"]
        [:div
-        (map (fn [schedule] [:p (str schedule) ]) schedules)]
+        (map (fn [schedule] (scheduleitem schedule)) schedules)]
        ]])))
 
 
@@ -67,25 +73,29 @@
     (println "schedules" schedules)
     (html
      [:head
-      [:title "main"]
+      [:title "Covid Care Offers"]
       (include-css "style.css")
-      [:div
+      [:div {:class "mainpanel"}
        (menuview session)
        [:p "Active Offers"]
        [:div
-        (map (fn [schedule] [:p (str schedule "Reserve") ]) schedules)]
+        (map (fn [schedule] (scheduleitem schedule)) schedules)]
+       [:p "Active Requests"]
+       [:div
+        (map (fn [schedule] (scheduleitem schedule)) schedules)]
        [:p "Already Reserved"]
        [:div
-        (map (fn [schedule] [:p (str schedule) ]) schedules)]]])))
+        (map (fn [schedule] (scheduleitem schedule)) schedules)]
+       ]])))
 
 
 (defn admin [session]
   (let [users (db/get-all-users)]
   (html
    [:head
-    [:title "users"]
+    [:title "Covid Care Admin"]
     (include-css "style.css")
-    [:div
+    [:div {:class "mainpanel"}
      (menuview session)
      [:p "All users"]
        [:div

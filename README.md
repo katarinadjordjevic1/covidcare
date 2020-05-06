@@ -23,3 +23,4 @@ Copyright © 2020 FIXME
 mysql is needed, a database named "covidcare" is needed, user/pass have to be set in database/db-config and in database/migratus-conf.edn
 add profile pics for users
 list item anim by css
+add buttons at the end of the items

@@ -1,37 +1,122 @@
 body {
     background-color: #BAC4E8;
     font-family: Garamond;
-    color: #29507A;
+    color: #FFFFFF;
+    font-family : -apple-system,BlinkMacSystemFont,Avenir,Avenir Next,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Fira Sans,Droid Sans,Helvetica Neue,sans-serif;
 }
 
 h1 {
+    font-size : 30px;
+    margin-left : auto;
+    margin-right : auto;
+    text-align : center;
+}
+
+h2 {
     font-size : 20px;
     margin-left : auto;
     margin-right : auto;
     text-align : center;
 }
 
-.loginpanel {
-    align-content : center;
-    position : absolute;
-    width : 900px;
-    left : 0px;
-    right : 0px; 
+e1 {
+    font-size : 20px;
+    color : #FF0000;
+    width : 100%;
+    display : block;
     margin-left : auto;
     margin-right : auto;
+    text-align : center;
+}
+
+a {
+    color: #FFFFFF;
+    text-decoration : none;
+}
+
+textarea, input {
+    background : #FFFFFF44;
+    border : none;
+    border-bottom : 2px solid white;
+    box-shadow : 0px 0px 10px 0 rgba(0, 0, 0, 0.2);
+    padding : 5px;
+    box-sizing: border-box;
+    /* doesn't inherit body font settings, have to reset here */
+    width : 150px;
+    font-size : 20px;
+    color : #FFFFFF;
+    font-family : -apple-system,BlinkMacSystemFont,Avenir,Avenir Next,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Fira Sans,Droid Sans,Helvetica Neue,sans-serif;
+    /* margin-left: auto; */
+    /* margin-right: auto; */
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+
+.loginpanel {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    font-size : 20px;
+    transform: translate(-50%, -50%);
+    background : #444466;
+    align-content : center;
+    width : 500px;
+    height : 400px;
+    box-shadow : 0 0px 20px 0 rgba(0, 0, 0, 0.3);
 }
 
 .logininputlabel {
     margin-right : 10px;
     display: inline-block;
     text-align : right;
-    width : 450px;
+    width : 150px;
 }
 
 .center {
     position : absolute;
+    text-align : center;
     left : 0px;
     right : 0px;
     margin-left : auto;
     margin-right : auto;
+}
+
+.mainpanel {
+    position: absolute;
+    left: 50%;
+    font-size : 20px;
+    transform: translate(-50%);
+    text-align : center;
+    background : #444466;
+    align-content : center;
+    width : 900px;
+    min-height : 600px;
+    box-shadow : 0 0px 20px 0 rgba(0, 0, 0, 0.3);
+}
+
+.menubar {
+    width : 100%;
+    text-align : center;
+    display : flex;
+    flex-wrap : wrap;
+    justify-content : center;
+    align-items : center;
+}
+
+.menubutton {
+    text-size : 25px;
+    padding : 10px;
+}
+
+.scheduleitem {
+    cursor : pointer;
+    text-align : left;
+    transition: 0.3s;
+    padding : 20px;
+    background-color: #333344;
+}
+
+.scheduleitem:hover {
+  background-color: #555588;
 }

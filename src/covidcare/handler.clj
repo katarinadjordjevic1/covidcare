@@ -5,15 +5,23 @@
             [buddy.auth.middleware :refer [wrap-authentication wrap-authorization]]
             [ring.middleware.defaults :refer [wrap-defaults site-defaults]]
             [ring.middleware.json :refer [wrap-json-response]]
+            [ring.util.response :refer [redirect]]
             [covidcare.rootroute :refer [root-routes]]
             [covidcare.mainroute :refer [main-routes]]
-            [covidcare.view :as v])
+            [covidcare.view :as v]
+            [buddy.auth :refer [authenticated?]])
   (:use [clojure.pprint]))
 
 
 (defroutes app-routes
   (route/resources "/")
   (route/not-found "Not Found"))
+
+
+(defn wrap-must-be-authenticated [handler]
+  (fn [request]
+    (if (authenticated? request) (handler request)
+        (assoc (redirect "/") :session {}))))
 
 
 (defn req-res-displayer [handler]
@@ -30,7 +38,7 @@
 
 
 (def app
-  (-> (routes root-routes main-routes app-routes)
+  (-> (routes root-routes (wrap-must-be-authenticated main-routes) app-routes)
       (wrap-json-response)
       ;;(req-res-displayer)
       (wrap-authentication backend)
