@@ -3,11 +3,11 @@
     [compojure.core :refer :all]
     [covidcare.database :as db]
     [covidcare.view :as v]
-    [ring.util.response :refer [redirect]]
-    [buddy.auth :refer [authenticated?]]))
+    [ring.util.response :refer [redirect]]))
 
 
 (defroutes main-routes
-  (GET "/schedules" request (v/schedules nil))
-  (GET "/offers" request (v/offers nil))
-  (GET "/logout" request (assoc (redirect "/") :session {})))
+  (GET "/schedules" {session :session} (v/schedules session))
+  (GET "/offers" {session :session} (v/offers session))
+  (GET "/logout" request (assoc (redirect "/") :session {}))
+  (GET "/admin"  {session :session} (v/admin session)))
