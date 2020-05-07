@@ -22,3 +22,20 @@
 
 (defn get-user-by-params [params]
   (k/select user (k/where params)))
+
+(defn get-schedules-by-params [params]
+  (k/select schedule (k/where params)))
+
+(defn add-user [params]
+  (k/insert user (k/values params)))
+
+(defn delete-user [params]
+  (k/delete user (k/where params)))
+
+(defn add-schedule [params]
+  (k/insert schedule (k/values params)))
+
+(defn update-schedule [params]
+  (k/update schedule
+            (k/set-fields params)
+            (k/where {:scheduleid (:scheduleid params)})))

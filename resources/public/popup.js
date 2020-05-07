@@ -1,10 +1,9 @@
-function getConfirmation() {
-    var retVal = confirm("Do you want to continue ?");
+function getConfirmation(text,url) {
+    var retVal = confirm(text);
     if( retVal == true ) {
-        //document.write ("User wants to continue!");
-        return true;
+	document.location.href = url;
+	return true;
     } else {
-        //document.write ("User does not want to continue!");
         return false;
     }
 }
