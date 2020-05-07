@@ -37,17 +37,26 @@
     (v/offers session)))
 
 
+(defn addrequest [session request]
+  (let [userid (get-in session [:identity :userid])]
+    (db/add-schedule (assoc (:params request) :helpeeid userid))
+    (v/requests session)))
+
+
 (defroutes main-routes
   (GET "/schedules" {session :session} (v/schedules session))
   (GET "/offers" {session :session} (v/offers session))
+  (GET "/requests" {session :session} (v/requests session))
   (GET "/logout" request (assoc (redirect "/") :session {}))
   (GET "/admin"  {session :session} (v/admin session))
   (GET "/adduser"  {session :session} (v/adduser session))
   (GET "/addoffer"  {session :session} (v/addoffer session))
+  (GET "/addrequest"  {session :session} (v/addrequest session))
   ;; api calls
   (GET "/reserve"  {session :session :as request} (reserve session request))
   (GET "/apply"  {session :session :as request} (applyfor session request))
   (GET "/removeuser"  {session :session :as request} (removeuser session request))
   (POST "/adduser" {session :session :as request} (adduser session request))
   (POST "/addoffer" {session :session :as request} (addoffer session request))
+  (POST "/addrequest" {session :session :as request} (addrequest session request))
   )

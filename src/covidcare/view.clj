@@ -38,8 +38,9 @@
   [:div {:class "menubar"}
    [:div {:class "menubutton col5"} [:a {:href "/schedules"} "Schedules"]]
    [:div {:class "menubutton col6"} [:a {:href "/offers"} "Your Offers"]]
-   [:div {:class "menubutton col5"} [:a {:href "/logout"} "Logout"]]
-   (if (is-admin? session) [:div {:class "menubutton col6"} [:a {:href "/admin"} "Admin"]])
+   [:div {:class "menubutton col5"} [:a {:href "/requests"} "Your Requests"]]
+   [:div {:class "menubutton col6"} [:a {:href "/logout"} "Logout"]]
+   (if (is-admin? session) [:div {:class "menubutton col5"} [:a {:href "/admin"} "Admin"]])
    [:div {:class "menubutton"} [:a {:href "/logout"} (str "Logged in as : " (:firstname (:identity session)) (:lastname (:identity session)))]]
    ])
 
@@ -53,7 +54,7 @@
    [:div {:class "itembutton col3"} ""]])
 
 
-(defn scheduleitem [index schedule]
+(defn scheduleitem [index schedule showbutton]
   (let [username (str (get-in schedule [:helper :firstname]) " " (get-in schedule [:helper :lastname]))
         helpeename (str (get-in schedule [:helpee :firstname]) " " (get-in schedule [:helpee :lastname]))
         from (.format (java.text.SimpleDateFormat. "MM/dd/yyyy hh:mm") (:fromdate schedule))
@@ -76,7 +77,7 @@
      [:div {:class (if (even? index) "datecell col2" "datecell col4")} to]
      [:div {:class (if (even? index) "usercell col1" "usercell col3")} username]
      [:div {:class (if (even? index) "usercell col2" "usercell col4")} helpeename]
-     [:div {:class (if (even? index) "itembutton col1" "itembutton col3")} label]]))
+     (if showbutton [:div {:class (if (even? index) "itembutton col1" "itembutton col3")} label])]))
 
 
 (defn schedules [session]
@@ -99,15 +100,15 @@
        [:p "Active Offers"]
        (scheduleheader)
        [:div
-        (map (fn [[index schedule]] (scheduleitem index schedule)) (map-indexed vector offers))]
+        (map (fn [[index schedule]] (scheduleitem index schedule true)) (map-indexed vector offers))]
        [:p "Active Requests"]
        (scheduleheader)
        [:div
-        (map (fn [[index schedule]] (scheduleitem index schedule)) (map-indexed vector requests))]
+        (map (fn [[index schedule]] (scheduleitem index schedule true)) (map-indexed vector requests))]
        [:p "Already Reserved"]
        (scheduleheader)
        [:div
-        (map (fn [[index schedule]] (scheduleitem index schedule)) (map-indexed vector reserved))]
+        (map (fn [[index schedule]] (scheduleitem index schedule true)) (map-indexed vector reserved))]
        ]])))
 
 
@@ -126,15 +127,42 @@
       (include-css "style.css")
       [:div {:class "mainpanel"}
        (menuview session)
-       [:div {:class "menubutton col1"} [:a {:href "/addoffer"} "Add New Offer"]]
+       [:div {:class "menubutton col1"} [:a {:href "/addoffer"} "Add Offer"]]
        [:p "Active Offers"]
        (scheduleheader)
        [:div
-        (map (fn [[index schedule]] (scheduleitem index schedule)) (map-indexed vector offers))]
+        (map (fn [[index schedule]] (scheduleitem index schedule false)) (map-indexed vector offers))]
        [:p "Already Reserved"]
        (scheduleheader)
        [:div
-        (map (fn [[index schedule]] (scheduleitem index schedule)) (map-indexed vector reserved))]
+        (map (fn [[index schedule]] (scheduleitem index schedule false)) (map-indexed vector reserved))]
+       ]])))
+
+
+(defn requests [session]
+  (let [schedules (db/get-schedules-by-params {:helpeeid (:userid (:identity session))})
+        extended (map (fn [schedule]
+                        (let [helper (first (db/get-user-by-params {:userid (:userid schedule)}))
+                              helpee (first (db/get-user-by-params {:userid (:helpeeid schedule)}))]
+                              (assoc schedule :helper helper :helpee helpee)
+                              )) schedules)
+        requests (filter #( = 0 (:userid %)) extended)
+        reserved (filter #(and (< 0 (:userid %)) (< 0 (:helpeeid %))) extended)]        
+    (html
+     [:head
+      [:title "Covid Care Requests"]
+      (include-css "style.css")
+      [:div {:class "mainpanel"}
+       (menuview session)
+       [:div {:class "menubutton col1"} [:a {:href "/addrequest"} "Add Request"]]
+       [:p "Active Requests"]
+       (scheduleheader)
+       [:div
+        (map (fn [[index schedule]] (scheduleitem index schedule false)) (map-indexed vector requests))]
+       [:p "Already Reserved"]
+       (scheduleheader)
+       [:div
+        (map (fn [[index schedule]] (scheduleitem index schedule false)) (map-indexed vector reserved))]
        ]])))
 
 
@@ -226,6 +254,28 @@
        [:br]
        [:input {:class "center" :type "submit" :value "submit"}]
        [:br][:br]
-       [:div {:class "ibutton center"} [:a {:href "/admin"} "Cancel"]]]
+       [:div {:class "ibutton center"} [:a {:href "/offers"} "Cancel"]]]
+      [:br][:br]
+      ]]]))
+
+
+(defn addrequest [session]
+  (html
+   [:head
+    [:title "Add New Request"]
+    (include-css "style.css")
+    [:div {:class "loginpanel"}
+     [:div {:class "center"}
+      [:form {:method "post" :action "/addrequest"}
+       [:br]
+       [:div {:class "logininputlabel"} "From Date/Time"]
+       [:input {:class "logininput" :type "text" :name "fromdate" :value "2020-05-01"}]
+       [:br]
+       [:div {:class "logininputlabel"} "Until Date/Time"]
+       [:input {:class "logininput" :type "text" :name "todate" :value "2020-05-01"}]
+       [:br]
+       [:input {:class "center" :type "submit" :value "submit"}]
+       [:br][:br]
+       [:div {:class "ibutton center"} [:a {:href "/requests"} "Cancel"]]]
       [:br][:br]
       ]]]))
