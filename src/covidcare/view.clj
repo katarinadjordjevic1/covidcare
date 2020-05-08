@@ -41,8 +41,7 @@
    [:div {:class "menubutton col5"} [:a {:href "/requests"} "Your Requests"]]
    [:div {:class "menubutton col6"} [:a {:href "/logout"} "Logout"]]
    (if (is-admin? session) [:div {:class "menubutton col5"} [:a {:href "/admin"} "Admin"]])
-   [:div {:class "menubutton"} [:a {:href "/logout"} (str "Logged in as : " (:firstname (:identity session)) (:lastname (:identity session)))]]
-   ])
+   [:div {:class "menubutton"} (str "Logged in as : " (:firstname (:identity session)) (:lastname (:identity session)))]])
 
 
 (defn scheduleheader []

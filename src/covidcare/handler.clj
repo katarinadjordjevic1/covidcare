@@ -8,6 +8,7 @@
             [ring.util.response :refer [redirect]]
             [covidcare.rootroute :refer [root-routes]]
             [covidcare.mainroute :refer [main-routes]]
+            [covidcare.adminroute :refer [admin-routes]]
             [covidcare.view :as v]
             [buddy.auth :refer [authenticated?]])
   (:use [clojure.pprint]))
@@ -21,6 +22,11 @@
 (defn wrap-must-be-authenticated [handler]
   (fn [request]
     (if (authenticated? request) (handler request)
+        (assoc (redirect "/") :session {}))))
+
+(defn wrap-must-be-admin [handler]
+  (fn [request]
+    (if (and (authenticated? request) (= "admin" (get-in request [:identity :role]))) (handler request)
         (assoc (redirect "/") :session {}))))
 
 
@@ -38,7 +44,7 @@
 
 
 (def app
-  (-> (routes root-routes (wrap-must-be-authenticated main-routes) app-routes)
+  (-> (routes root-routes (wrap-must-be-authenticated main-routes) (wrap-must-be-admin admin-routes) app-routes)
       (wrap-json-response)
       ;;(req-res-displayer)
       (wrap-authentication backend)
