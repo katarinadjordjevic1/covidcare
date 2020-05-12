@@ -42,7 +42,7 @@
      (if-not admin? [:div {:class "menubutton col5"} [:a {:href "/requests"} "Your Requests"]])
      (if admin? [:div {:class "menubutton col6"} [:a {:href "/admin"} "Users"]])
      [:div {:class "menubutton col7"} [:a {:href "/logout"} "Logout"]]
-     [:div {:class "menubutton"} (str "Logged in as : " (:firstname (:identity session)) (:lastname (:identity session)))]]))
+     [:div {:class "namebutton"} (str "Logged in as : " (:firstname (:identity session)) (:lastname (:identity session)))]]))
     
 
 (defn scheduleheader []

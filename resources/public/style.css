@@ -135,11 +135,17 @@ textarea, input {
     text-align : center;
     display : flex;
     flex-wrap : wrap;
-    justify-content : center;
     align-items : center;
 }
 
 .menubutton {
+    text-size : 25px;
+    padding : 10px;
+}
+
+.namebutton {
+    position : absolute;
+    right : 0px;
     text-size : 25px;
     padding : 10px;
 }
