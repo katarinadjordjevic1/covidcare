@@ -192,6 +192,10 @@ textarea, input {
     background-color:  rgba( 20 , 20 , 150 , 1.0);
 }
 
+.col7 {
+    background-color:  rgba( 200 , 50 , 50 , 1.0);
+}
+
 .itembutton {
     flex : 1 1;
     height : 100%;

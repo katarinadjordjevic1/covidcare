@@ -35,14 +35,15 @@
 
 
 (defn menuview [session]
-  [:div {:class "menubar"}
-   [:div {:class "menubutton col5"} [:a {:href "/schedules"} "Schedules"]]
-   [:div {:class "menubutton col6"} [:a {:href "/offers"} "Your Offers"]]
-   [:div {:class "menubutton col5"} [:a {:href "/requests"} "Your Requests"]]
-   [:div {:class "menubutton col6"} [:a {:href "/logout"} "Logout"]]
-   (if (is-admin? session) [:div {:class "menubutton col5"} [:a {:href "/admin"} "Admin"]])
-   [:div {:class "menubutton"} (str "Logged in as : " (:firstname (:identity session)) (:lastname (:identity session)))]])
-
+  (let [admin? (is-admin? session)]
+    [:div {:class "menubar"} 
+     [:div {:class "menubutton col5"} [:a {:href "/schedules"} "Schedules"]]
+     (if-not admin? [:div {:class "menubutton col6"} [:a {:href "/offers"} "Your Offers"]])
+     (if-not admin? [:div {:class "menubutton col5"} [:a {:href "/requests"} "Your Requests"]])
+     (if admin? [:div {:class "menubutton col6"} [:a {:href "/admin"} "Users"]])
+     [:div {:class "menubutton col7"} [:a {:href "/logout"} "Logout"]]
+     [:div {:class "menubutton"} (str "Logged in as : " (:firstname (:identity session)) (:lastname (:identity session)))]]))
+    
 
 (defn scheduleheader []
   [:div {:class "scheduleitem"}
