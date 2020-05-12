@@ -28,7 +28,7 @@
        [:div {:class "logininputlabel"} "Password"]
        [:input {:class "logininput" :type "text" :name "password"}]
        [:br][:br]
-       [:input {:class "center" :type "submit" :value "submit"}]]
+       [:input {:class "center" :type "submit" :value "Submit"}]]
       [:br][:br]
       [:div {:class "center"} "(user/user or admin/admin)"]
       ]]]))
@@ -46,11 +46,14 @@
 
 (defn scheduleheader []
   [:div {:class "scheduleitem"}
-   [:div {:class "datecell col3"} "From"]
-   [:div {:class "datecell col4"} "Until"]
-   [:div {:class "usercell col3"} "Helper"]
-   [:div {:class "usercell col4"} "Helpee"]
-   [:div {:class "itembutton col3"} ""]])
+   [:div {:class "cell col3"} "From"]
+   [:div {:class "cell col4"} "Until"]
+   [:div {:class "cell col3"} "Helper"]
+   [:div {:class "cell col4"} "Helpee"]
+   [:div {:class "cell col3"} "Service"]
+   [:div {:class "cell col4"} "City"]
+   [:div {:class "cell col3"} "District"]
+   [:div {:class "itembutton col4"} "Action"]])
 
 
 (defn scheduleitem [index schedule showbutton]
@@ -58,6 +61,9 @@
         helpeename (str (get-in schedule [:helpee :firstname]) " " (get-in schedule [:helpee :lastname]))
         from (.format (java.text.SimpleDateFormat. "MM/dd/yyyy hh:mm") (:fromdate schedule))
         to  (.format (java.text.SimpleDateFormat. "MM/dd/yyyy hh:mm") (:todate schedule))
+        city (:city schedule)
+        district (:district schedule)
+        service (:service schedule)
         label (cond
                 (= 0 (:userid schedule)) "Apply"
                 (= 0 (:helpeeid schedule)) "Reserve"
@@ -70,13 +76,19 @@
                 (= 0 (:userid schedule)) (str "apply?scheduleid=" (:scheduleid schedule))
                 (= 0 (:helpeeid schedule)) (str "reserve?scheduleid=" (:scheduleid schedule))
                 :else "")]
-    [:div {:class "scheduleitem"
-           :onclick (str "getConfirmation(\"" popup "\",\"" url "\");")}
-     [:div {:class (if (even? index) "datecell col1" "datecell col3")} from]
-     [:div {:class (if (even? index) "datecell col2" "datecell col4")} to]
-     [:div {:class (if (even? index) "usercell col1" "usercell col3")} username]
-     [:div {:class (if (even? index) "usercell col2" "usercell col4")} helpeename]
-     (if showbutton [:div {:class (if (even? index) "itembutton col1" "itembutton col3")} label])]))
+    [:div {:class "scheduleitem"}
+     [:div {:class (if (even? index) "cell col1" "cell col3")} from]
+     [:div {:class (if (even? index) "cell col2" "cell col4")} to]
+     [:div {:class (if (even? index) "cell col1" "cell col3")} username]
+     [:div {:class (if (even? index) "cell col2" "cell col4")} helpeename]
+     [:div {:class (if (even? index) "cell col1" "cell col3")} service]
+     [:div {:class (if (even? index) "cell col1" "cell col3")} city]
+     [:div {:class (if (even? index) "cell col2" "cell col4")} district]
+     (if showbutton
+       [:div {:class (if (even? index) "itembutton col1" "itembutton col3")
+              :onclick (str "getConfirmation(\"" popup "\",\"" url "\");")
+              } label]
+       [:div {:class (if (even? index) "itembutton col1" "itembutton col3")}])]))
 
 
 (defn schedules [session]
@@ -167,22 +179,22 @@
 
 (defn userheader []
   [:div {:class "scheduleitem"}
-   [:div {:class "namecell col3"} "Firstname"]
-   [:div {:class "namecell col4"} "Lastname"]
-   [:div {:class "namecell col3"} "Username"]
-   [:div {:class "emailcell col4"} "Email"]
-   [:div {:class "rolecell col3"} "Role"]
-   [:div {:class "itembutton col4"} ""]])
+   [:div {:class "cell col3"} "Firstname"]
+   [:div {:class "cell col4"} "Lastname"]
+   [:div {:class "cell col3"} "Username"]
+   [:div {:class "cell col4"} "Email"]
+   [:div {:class "cell col3"} "Role"]
+   [:div {:class "itembutton col4"} "Action"]])
 
 
 (defn useritem [index {:keys [userid firstname lastname username email role]}]
     [:div {:class "scheduleitem"
            :onclick (str "getConfirmation(\"Do you really want to remove user?\",\"removeuser?userid=" userid "\");")}
-     [:div {:class (if (even? index) "namecell col1" "namecell col3")} firstname]
-     [:div {:class (if (even? index) "namecell col2" "namecell col4")} lastname]
-     [:div {:class (if (even? index) "namecell col1" "namecell col3")} username]
-     [:div {:class (if (even? index) "emailcell col2" "emailcell col4")} email]
-     [:div {:class (if (even? index) "rolecell col1" "rolecell col3")} role]
+     [:div {:class (if (even? index) "cell col1" "cell col3")} firstname]
+     [:div {:class (if (even? index) "cell col2" "cell col4")} lastname]
+     [:div {:class (if (even? index) "cell col1" "cell col3")} username]
+     [:div {:class (if (even? index) "cell col2" "cell col4")} email]
+     [:div {:class (if (even? index) "cell col1" "cell col3")} role]
      [:div {:class (if (even? index) "itembutton col2" "itembutton col4")} "Delete"]])
 
 
@@ -229,7 +241,7 @@
        [:div {:class "logininputlabel"} "Password"]
        [:input {:class "logininput" :type "text" :name "password"}]
        [:br]
-       [:input {:class "center" :type "submit" :value "submit"}]
+       [:input {:class "center" :type "submit" :value "Submit"}]
        [:br][:br]
        [:div {:class "ibutton center"} [:a {:href "/admin"} "Cancel"]]]
       [:br][:br]
@@ -251,7 +263,20 @@
        [:div {:class "logininputlabel"} "Until Date/Time"]
        [:input {:class "logininput" :type "text" :name "todate" :value "2020-05-01"}]
        [:br]
-       [:input {:class "center" :type "submit" :value "submit"}]
+       [:div {:class "logininputlabel"} "City"]
+       [:input {:class "logininput" :type "text" :name "city"}]
+       [:br]
+       [:div {:class "logininputlabel"} "District"]
+       [:input {:class "logininput" :type "text" :name "district"}]
+       [:br]
+       [:select {:id "service" :name "service"}
+        [:option {:value "Groceries"} "Grocieries"]
+        [:option {:value "Walk" :selected "" } "Walk"]
+        [:option {:value "Walking the dog"} "Walking the dog"]
+        [:option {:value "Cleaning"} "Cleaning"]
+        [:option {:value "Cut grass"} "Cut grass"]]
+       [:br]
+       [:input {:class "center" :type "submit" :value "Submit"}]
        [:br][:br]
        [:div {:class "ibutton center"} [:a {:href "/offers"} "Cancel"]]]
       [:br][:br]
@@ -273,7 +298,20 @@
        [:div {:class "logininputlabel"} "Until Date/Time"]
        [:input {:class "logininput" :type "text" :name "todate" :value "2020-05-01"}]
        [:br]
-       [:input {:class "center" :type "submit" :value "submit"}]
+       [:div {:class "logininputlabel"} "City"]
+       [:input {:class "logininput" :type "text" :name "city"}]
+       [:br]
+       [:div {:class "logininputlabel"} "District"]
+       [:input {:class "logininput" :type "text" :name "district"}]
+       [:br]
+       [:select {:id "service" :name "service"}
+        [:option {:value "Groceries"} "Grocieries"]
+        [:option {:value "Walk" :selected "" } "Walk"]
+        [:option {:value "Walking the dog"} "Walking the dog"]
+        [:option {:value "Cleaning"} "Cleaning"]
+        [:option {:value "Cut grass"} "Cut grass"]]
+       [:br]
+       [:input {:class "center" :type "submit" :value "Submit"}]
        [:br][:br]
        [:div {:class "ibutton center"} [:a {:href "/requests"} "Cancel"]]]
       [:br][:br]

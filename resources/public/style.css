@@ -6,7 +6,7 @@ body {
 }
 
 h1 {
-    font-size : 30px;
+    font-size : 25px;
     margin-left : auto;
     margin-right : auto;
     text-align : center;
@@ -20,7 +20,7 @@ h2 {
 }
 
 e1 {
-    font-size : 20px;
+    font-size : 15px;
     color : #FF0000;
     width : 100%;
     display : block;
@@ -34,8 +34,26 @@ a {
     text-decoration : none;
 }
 
+select {
+    background : rgba(255, 255, 255, 0.2);
+    border : none;
+    border-bottom : 2px solid white;
+    box-shadow : 0px 0px 10px 0 rgba(0, 0, 0, 0.2);
+    padding : 5px;
+    box-sizing: border-box;
+    /* doesn't inherit body font settings, have to reset here */
+    width : 250px;
+    font-size : 20px;
+    color : #000000;
+    font-family : -apple-system,BlinkMacSystemFont,Avenir,Avenir Next,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Fira Sans,Droid Sans,Helvetica Neue,sans-serif;
+    /* margin-left: auto; */
+    /* margin-right: auto; */
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
 textarea, input {
-    background : #FFFFFF44;
+    background : rgba(255, 255, 255, 0.2);
     border : none;
     border-bottom : 2px solid white;
     box-shadow : 0px 0px 10px 0 rgba(0, 0, 0, 0.2);
@@ -51,7 +69,6 @@ textarea, input {
     margin-top: 5px;
     margin-bottom: 5px;
 }
-
 
 .ibutton {
     background : #FFFFFF44;
@@ -102,12 +119,12 @@ textarea, input {
 .mainpanel {
     position: absolute;
     left: 50%;
-    font-size : 20px;
+    font-size : 15px;
     transform: translate(-50%);
     text-align : center;
     background : #444466;
     align-content : center;
-    width : 900px;
+    width : 1100px;
     min-height : 600px;
     box-shadow : 0 0px 20px 0 rgba(0, 0, 0, 0.3);
 }
@@ -128,53 +145,25 @@ textarea, input {
 }
 
 .scheduleitem {
-    height : 50px;
+    height : 40px;
     overflow: hidden;
     cursor : pointer;
     text-align : left;
     transition: 0.3s;
     background-color: #333344;
     display : flex;
+    flex-wrap : nowrap;
     align-items : center;
     line-height : 50px;
 }
-
 
 .scheduleitem:hover {
   background-color: #555588;
 }
 
-.datecell {
+.cell {
+    flex : 1 1;
     float : left;
-    width : 20%;
-    height : 100%;
-    padding-left : 10px;
-}
-
-.usercell {
-    float : left;
-    width : 22%;
-    height : 100%;
-    padding-left : 10px;
-}
-
-.namecell {
-    float : left;
-    width : 14%;
-    height : 100%;
-    padding-left : 10px;
-}
-
-.emailcell {
-    float : left;
-    width : 30%;
-    height : 100%;
-    padding-left : 10px;
-}
-
-.rolecell {
-    float : left;
-    width : 10%;
     height : 100%;
     padding-left : 10px;
 }
@@ -204,7 +193,7 @@ textarea, input {
 }
 
 .itembutton {
-    width : 12%;
+    flex : 1 1;
     height : 100%;
     text-align : center;
 }
