@@ -28,13 +28,13 @@ lein ring server
 
 ## Used Libraries
 
-- Leiningen: Leiningen is a build automation and dependency management tool for the simple configuration of software projects written in the Clojure programming language
-- Ring:  It's a lower-level framework to handle HTTP requests, with a focus on traditional web development. 
-- Migratus: A general migration framework, with implementations for migrations as SQL scripts or general Clojure code.
+- Leiningen : Project automation tool with declarative configuration
+- Ring : Web Applications Library
+- Migratus : General migration framework
 - Compojure: Compojure is a small routing library for Ring that allows web applications to be composed of small, independent parts.
-- Korma: Korma is a domain specific language for Clojure. It is used for creating queries and communicating with db.
-- Hiccup: Library for representing HTML in Clojure 
-- Buddy auth: It is used to provide Authentication and Authorization facilities.
+- Korma : SQL query library
+- Hiccup : Library for representing HTML in Clojure 
+- Buddy auth : Authentication and Authorization library
 
 ## Project description
 
