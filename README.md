@@ -48,4 +48,4 @@ Simple users can create new offers and new requests and can reserve services, ap
 
 For simple users the available menu items are : Schedules/Your Offers/Your Requests/Logout
 
-For amdins available menu items are : Schedules/Users/Logout
+For admins available menu items are : Schedules/Users/Logout
