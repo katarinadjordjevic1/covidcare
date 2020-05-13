@@ -39,8 +39,13 @@ lein ring server
 ## Project description
 
 Covid Care is a website where users can offer services and accept services.
+
 There are two types of users : admins and simple users.
+
 Admins can add new users and delete existing users.
+
 Simple users can create new offers and new requests and can reserve services, apply for requests, create new offers and create new requests.
+
 For simple users the available menu items are : Schedules/Your Offers/Your Requests/Logout
+
 For amdins available menu items are : Schedules/Users/Logout
