@@ -35,12 +35,8 @@ a {
     text-decoration : none;
 }
 
-.submitbtn {
-    cursor: pointer;
-}
-
 select {
-    background : rgba(255, 255, 255, 0.2);
+    background : rgba(255, 255, 255, 0.5);
     border : none;
     border-bottom : 2px solid white;
     box-shadow : 0px 0px 10px 0 rgba(0, 0, 0, 0.2);
@@ -76,9 +72,12 @@ textarea, input {
     margin-bottom: 5px;
 }
 
-.avatar {
-    width : 40px;
-    height : 40px;
+.submitbtn {
+    cursor: pointer;
+}
+
+.boldtext {
+    font-weight: bold;
 }
 
 .ibutton {
@@ -98,6 +97,7 @@ textarea, input {
 }
 
 .loginpanel {
+    overflow: hidden;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -105,7 +105,6 @@ textarea, input {
     transform: translate(-50%, -50%);
     align-content : center;
     width : 500px;
-    min-height : 400px;
     box-shadow : 0 0px 20px 0 rgba(0, 0, 0, 0.3);
     background: rgba(240,240,240,0.6);
     background-image: url("images/splash.png");
@@ -113,6 +112,7 @@ textarea, input {
 }
 
 .logininputlabel {
+    margin-left : 16px;
     margin-right : 10px;
     display: inline-block;
     text-align : right;
@@ -154,6 +154,7 @@ textarea, input {
 }
 
 .menubutton {
+    text-align : center;
     font-weight: bold;
     text-size : 25px;
     padding : 10px;
@@ -191,42 +192,37 @@ textarea, input {
 }
 
 .col1 {
-    height: 100%;
-    display: inline-block;
-    vertical-align : middle;
+    display : flex;
     background-color:  rgba( 250 , 230 , 230 , 0.5);
 }
 
 .col2 {
-    height: 100%;
-    display: inline-block;
-    vertical-align : middle;
+    display: flex;
     background-color:  rgba( 260 , 240 , 240 , 0.5);
 }
 
 .col3 {
-    height : 100%;
-    display : inline-block;
-    vertical-align : middle;
+    display : flex;
     background-color:  rgba( 200 , 180 , 180 , 0.5);
 }
 
 .col4 {
-    height: 100%;
-    display: inline-block;
-    vertical-align : middle;
+    display : flex;
     background-color:  rgba( 210 , 190 , 190 , 0.5);
 }
 
 .col5 {
+    display : flex;
     background-color:  rgba( 170 , 180 , 180 , 0.5);
 }
 
 .col6 {
+    display : flex;
     background-color:  rgba( 180 , 190 , 190 , 0.5);
 }
 
 .col7 {
+    display : flex;
     background-color:  rgba( 200 , 200 , 200 , 0.5);
 }
 
@@ -238,4 +234,11 @@ textarea, input {
 
 .itembutton:hover {
   background-color: rgba(255,255,255,1.0);
+}
+
+.avatar {
+    margin-top : 10px;
+    margin-right : 10px;
+    width : 40px;
+    height : 40px;
 }

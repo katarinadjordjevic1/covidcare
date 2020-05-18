@@ -19,19 +19,17 @@
      [:h1 "Covid Care"]
      [:h2 "Offer Service / Request Service"]
      (if error [:e1 (str "Error: " error)])
-     [:div {:class "center"}
-      [:form {:method "post" :action ""}
-       [:br]
-       [:div {:class "logininputlabel"} "Username/Email"]
-       [:input {:class "logininput" :type "text" :name "username"}]
-       [:br]
-       [:div {:class "logininputlabel"} "Password"]
-       [:input {:class "logininput" :type "text" :name "password"}]
-       [:br][:br]
-       [:input {:class "center submitbtn" :type "submit" :value "Submit"}]]
+     [:form {:method "post" :action ""}
+      [:br]
+      [:div {:class "logininputlabel"} "Username/Email"]
+      [:input {:class "logininput" :type "text" :name "username"}]
+      [:br]
+      [:div {:class "logininputlabel"} "Password"]
+      [:input {:class "logininput" :type "text" :name "password"}]
       [:br][:br]
-      [:div {:class "center"} "(user/user or admin/admin)"]
-      ]]]))
+      [:input {:class "center submitbtn" :type "submit" :value "Submit"}]]
+     [:br][:br]
+     [:div {:class "center"} "(user/user or admin/admin)"]]]))
 
 
 (defn menuview [session]
@@ -85,8 +83,8 @@
      [:div {:class (if (even? index) "cell col1" "cell col3")} from]
      [:div {:class (if (even? index) "cell col2" "cell col4")} to]
      [:div {:class (if (even? index) "cell col1" "cell col3")}
-      (if user [:img {:class "avatar" :src userurl}])
-      username]
+      [:div (if user [:img {:class "avatar" :src userurl}])]
+      [:div username]]
      [:div {:class (if (even? index) "cell col2" "cell col4")}
       (if helpee [:img {:class "avatar" :src helpeeurl}])
       helpeename]
@@ -94,7 +92,7 @@
      [:div {:class (if (even? index) "cell col1" "cell col3")} city]
      [:div {:class (if (even? index) "cell col2" "cell col4")} district]
      (if showbutton
-       [:div {:class (if (even? index) "itembutton col1" "itembutton col6")
+       [:div {:class (if (even? index) "itembutton boldtext col1" "itembutton boldtext col6")
               :onclick (str "getConfirmation(\"" popup "\",\"" url "\");")
               } label]
        [:div {:class (if (even? index) "itembutton col1" "itembutton col6")}])]))
@@ -147,7 +145,8 @@
       (include-css "style.css")
       [:div {:class "mainpanel"}
        (menuview session)
-       [:div {:class "menubutton col1"} [:a {:href "/addoffer"} "Add Offer"]]
+       [:br]
+       [:div [:a {:class "menubutton col1" :href "/addoffer"} "Add Offer"]]
        [:p {:class "menubutton"} "Active Offers"]
        (scheduleheader)
        [:div
@@ -174,7 +173,8 @@
       (include-css "style.css")
       [:div {:class "mainpanel"}
        (menuview session)
-       [:div {:class "menubutton col1"} [:a {:href "/addrequest"} "Add Request"]]
+       [:br]
+       [:div [:a {:class "menubutton col1" :href "/addrequest"} "Add Request"]]
        [:p {:class "menubutton"} "Active Requests"]
        (scheduleheader)
        [:div
@@ -218,7 +218,9 @@
     (include-js "popup.js")
     [:div {:class "mainpanel"}
      (menuview session)
-     [:div {:class "menubutton col1"} [:a {:href "/adduser"} "Add User"]]
+     [:br]
+     [:div [:a {:class "menubutton col1" :href "/adduser"} "Add User"]]
+     [:br]
      (userheader)
      [:div
       (map (fn [[index user]] (useritem index user)) (map-indexed vector users))]
@@ -231,32 +233,33 @@
     [:title "Add New User"]
     (include-css "style.css")
     [:div {:class "loginpanel"}
-     [:div {:class "center"}
-      [:form {:method "post" :action "/adduser"}
-       [:br]
-       [:div {:class "logininputlabel"} "Username"]
-       [:input {:class "logininput" :type "text" :name "username"}]
-       [:br]
-       [:div {:class "logininputlabel"} "First Name"]
-       [:input {:class "logininput" :type "text" :name "firstname"}]
-       [:br]
-       [:div {:class "logininputlabel"} "Last Name"]
-       [:input {:class "logininput" :type "text" :name "lastname"}]
-       [:br]
-       [:div {:class "logininputlabel"} "Email"]
-       [:input {:class "logininput" :type "text" :name "email"}]
-       [:br]
-       [:div {:class "logininputlabel"} "Role"]
-       [:input {:class "logininput" :type "text" :name "role"}]
-       [:br]
-       [:div {:class "logininputlabel"} "Password"]
-       [:input {:class "logininput" :type "text" :name "password"}]
-       [:br]
-       [:input {:class "center" :type "submit" :value "Submit"}]
-       [:br][:br]
-       [:div {:class "ibutton center"} [:a {:href "/admin"} "Cancel"]]]
+     [:form {:method "post" :action "/adduser"}
+      [:br]
+      [:div {:class "logininputlabel"} "Username"]
+      [:input {:class "logininput" :type "text" :name "username"}]
+      [:br]
+      [:div {:class "logininputlabel"} "First Name"]
+      [:input {:class "logininput" :type "text" :name "firstname"}]
+      [:br]
+      [:div {:class "logininputlabel"} "Last Name"]
+      [:input {:class "logininput" :type "text" :name "lastname"}]
+      [:br]
+      [:div {:class "logininputlabel"} "Email"]
+      [:input {:class "logininput" :type "text" :name "email"}]
+      [:br]
+      [:div {:class "logininputlabel"} "Role"]
+      [:input {:class "logininput" :type "text" :name "role"}]
+      [:br]
+      [:div {:class "logininputlabel"} "Picture"]
+      [:input {:class "logininput" :type "text" :name "picture"}]
+      [:br]
+      [:div {:class "logininputlabel"} "Password"]
+      [:input {:class "logininput" :type "text" :name "password"}]
+      [:br]
+      [:input {:class "center" :type "submit" :value "Submit"}]
       [:br][:br]
-      ]]]))
+      [:div {:class "ibutton center"} [:a {:href "/admin"} "Cancel"]]]
+     [:br][:br]]]))
 
 
 (defn addoffer [session]
@@ -265,33 +268,33 @@
     [:title "Add New Offer"]
     (include-css "style.css")
     [:div {:class "loginpanel"}
-     [:div {:class "center"}
-      [:form {:method "post" :action "/addoffer"}
-       [:br]
-       [:div {:class "logininputlabel"} "From Date/Time"]
-       [:input {:class "logininput" :type "text" :name "fromdate" :value "2020-05-01"}]
-       [:br]
-       [:div {:class "logininputlabel"} "Until Date/Time"]
-       [:input {:class "logininput" :type "text" :name "todate" :value "2020-05-01"}]
-       [:br]
-       [:div {:class "logininputlabel"} "City"]
-       [:input {:class "logininput" :type "text" :name "city"}]
-       [:br]
-       [:div {:class "logininputlabel"} "District"]
-       [:input {:class "logininput" :type "text" :name "district"}]
-       [:br]
-       [:select {:id "service" :name "service"}
-        [:option {:value "Groceries"} "Grocieries"]
-        [:option {:value "Walk" :selected "" } "Walk"]
-        [:option {:value "Walking the dog"} "Walking the dog"]
-        [:option {:value "Cleaning"} "Cleaning"]
-        [:option {:value "Cut grass"} "Cut grass"]]
-       [:br]
-       [:input {:class "center" :type "submit" :value "Submit"}]
-       [:br][:br]
-       [:div {:class "ibutton center"} [:a {:href "/offers"} "Cancel"]]]
+     [:form {:method "post" :action "/addoffer"}
+      [:br]
+      [:div {:class "logininputlabel"} "From Date/Time"]
+      [:input {:class "logininput" :type "text" :name "fromdate" :value "2020-05-01"}]
+      [:br]
+      [:div {:class "logininputlabel"} "Until Date/Time"]
+      [:input {:class "logininput" :type "text" :name "todate" :value "2020-05-01"}]
+      [:br]
+      [:div {:class "logininputlabel"} "City"]
+      [:input {:class "logininput" :type "text" :name "city"}]
+      [:br]
+      [:div {:class "logininputlabel"} "District"]
+      [:input {:class "logininput" :type "text" :name "district"}]
+      [:br]
+      [:select {:class "center" :id "service" :name "service"}
+       [:option {:value "Groceries"} "Grocieries"]
+       [:option {:value "Walk" :selected "" } "Walk"]
+       [:option {:value "Walking the dog"} "Walking the dog"]
+       [:option {:value "Cleaning"} "Cleaning"]
+       [:option {:value "Cut grass"} "Cut grass"]]
+      [:br]
+      [:br]
+      [:input {:class "center" :type "submit" :value "Submit"}]
       [:br][:br]
-      ]]]))
+      [:div {:class "ibutton center"} [:a {:href "/offers"} "Cancel"]]]
+     [:br][:br]
+     ]]))
 
 
 (defn addrequest [session]
@@ -300,30 +303,30 @@
     [:title "Add New Request"]
     (include-css "style.css")
     [:div {:class "loginpanel"}
-     [:div {:class "center"}
-      [:form {:method "post" :action "/addrequest"}
-       [:br]
-       [:div {:class "logininputlabel"} "From Date/Time"]
-       [:input {:class "logininput" :type "text" :name "fromdate" :value "2020-05-01"}]
-       [:br]
-       [:div {:class "logininputlabel"} "Until Date/Time"]
-       [:input {:class "logininput" :type "text" :name "todate" :value "2020-05-01"}]
-       [:br]
-       [:div {:class "logininputlabel"} "City"]
-       [:input {:class "logininput" :type "text" :name "city"}]
-       [:br]
-       [:div {:class "logininputlabel"} "District"]
-       [:input {:class "logininput" :type "text" :name "district"}]
-       [:br]
-       [:select {:id "service" :name "service"}
-        [:option {:value "Groceries"} "Grocieries"]
-        [:option {:value "Walk" :selected "" } "Walk"]
-        [:option {:value "Walking the dog"} "Walking the dog"]
-        [:option {:value "Cleaning"} "Cleaning"]
-        [:option {:value "Cut grass"} "Cut grass"]]
-       [:br]
-       [:input {:class "center" :type "submit" :value "Submit"}]
-       [:br][:br]
-       [:div {:class "ibutton center"} [:a {:href "/requests"} "Cancel"]]]
+     [:form {:method "post" :action "/addrequest"}
+      [:br]
+      [:div {:class "logininputlabel"} "From Date/Time"]
+      [:input {:class "logininput" :type "text" :name "fromdate" :value "2020-05-01"}]
+      [:br]
+      [:div {:class "logininputlabel"} "Until Date/Time"]
+      [:input {:class "logininput" :type "text" :name "todate" :value "2020-05-01"}]
+      [:br]
+      [:div {:class "logininputlabel"} "City"]
+      [:input {:class "logininput" :type "text" :name "city"}]
+      [:br]
+      [:div {:class "logininputlabel"} "District"]
+      [:input {:class "logininput" :type "text" :name "district"}]
+      [:br]
+      [:select {:class "center" :id "service" :name "service"}
+       [:option {:value "Groceries"} "Grocieries"]
+       [:option {:value "Walk" :selected "" } "Walk"]
+       [:option {:value "Walking the dog"} "Walking the dog"]
+       [:option {:value "Cleaning"} "Cleaning"]
+       [:option {:value "Cut grass"} "Cut grass"]]
+      [:br]
+      [:br]
+      [:input {:class "center" :type "submit" :value "Submit"}]
       [:br][:br]
-      ]]]))
+      [:div {:class "ibutton center"} [:a {:href "/requests"} "Cancel"]]]
+     [:br][:br]
+     ]]))

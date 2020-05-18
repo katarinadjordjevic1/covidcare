@@ -21,13 +21,20 @@
 
 (defn wrap-must-be-authenticated [handler]
   (fn [request]
-    (if (authenticated? request) (handler request)
-        (assoc (redirect "/") :session {}))))
+    (if (authenticated? request)
+      (handler request)
+      (do
+        (println "NOT AUTH" request)
+        (assoc (redirect "/") :session {}))
+     )))
 
 (defn wrap-must-be-admin [handler]
   (fn [request]
-    (if (and (authenticated? request) (= "admin" (get-in request [:identity :role]))) (handler request)
-        (assoc (redirect "/") :session {}))))
+    (if (and (authenticated? request) (= "admin" (get-in request [:identity :role])))
+      (handler request)
+      (do
+        (println "NOT ADMIN" handler request)
+        (assoc (redirect "/") :session {})))))
 
 
 (defn req-res-displayer [handler]
@@ -44,7 +51,7 @@
 
 
 (def app
-  (-> (routes root-routes (wrap-must-be-authenticated main-routes) (wrap-must-be-admin admin-routes) app-routes)
+  (-> (routes root-routes (wrap-must-be-authenticated main-routes) (wrap-must-be-admin admin-routes)  app-routes)
       (wrap-json-response)
       ;;(req-res-displayer)
       (wrap-authentication backend)
