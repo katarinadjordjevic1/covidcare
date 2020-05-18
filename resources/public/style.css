@@ -1,7 +1,8 @@
 body {
     background-color: #BAC4E8;
+    background: url("images/tile.jpg");
     font-family: Garamond;
-    color: #FFFFFF;
+    color: #550000;
     font-family : -apple-system,BlinkMacSystemFont,Avenir,Avenir Next,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Fira Sans,Droid Sans,Helvetica Neue,sans-serif;
 }
 
@@ -21,7 +22,7 @@ h2 {
 
 e1 {
     font-size : 15px;
-    color : #FF0000;
+    color: #550000;
     width : 100%;
     display : block;
     margin-left : auto;
@@ -30,8 +31,12 @@ e1 {
 }
 
 a {
-    color: #FFFFFF;
+    color: #550000;
     text-decoration : none;
+}
+
+.submitbtn {
+    cursor: pointer;
 }
 
 select {
@@ -50,10 +55,11 @@ select {
     /* margin-right: auto; */
     margin-top: 5px;
     margin-bottom: 5px;
+    cursor : pointer;
 }
 
 textarea, input {
-    background : rgba(255, 255, 255, 0.2);
+    background : rgba(255, 255, 255, 0.5);
     border : none;
     border-bottom : 2px solid white;
     box-shadow : 0px 0px 10px 0 rgba(0, 0, 0, 0.2);
@@ -62,7 +68,7 @@ textarea, input {
     /* doesn't inherit body font settings, have to reset here */
     width : 150px;
     font-size : 20px;
-    color : #FFFFFF;
+    color : #550000;
     font-family : -apple-system,BlinkMacSystemFont,Avenir,Avenir Next,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Fira Sans,Droid Sans,Helvetica Neue,sans-serif;
     /* margin-left: auto; */
     /* margin-right: auto; */
@@ -70,8 +76,13 @@ textarea, input {
     margin-bottom: 5px;
 }
 
+.avatar {
+    width : 40px;
+    height : 40px;
+}
+
 .ibutton {
-    background : #FFFFFF44;
+    background : #FFFFFF;
     border : none;
     border-bottom : 2px solid white;
     box-shadow : 0px 0px 10px 0 rgba(0, 0, 0, 0.2);
@@ -86,18 +97,19 @@ textarea, input {
     margin-bottom: 5px;
 }
 
-
 .loginpanel {
     position: absolute;
     top: 50%;
     left: 50%;
     font-size : 20px;
     transform: translate(-50%, -50%);
-    background : #444466;
     align-content : center;
     width : 500px;
     min-height : 400px;
     box-shadow : 0 0px 20px 0 rgba(0, 0, 0, 0.3);
+    background: rgba(240,240,240,0.6);
+    background-image: url("images/splash.png");
+    background-size: 100% 100%;
 }
 
 .logininputlabel {
@@ -122,11 +134,12 @@ textarea, input {
     font-size : 15px;
     transform: translate(-50%);
     text-align : center;
-    background : #444466;
+    background : rgba(240,240,240,0.9);
     align-content : center;
     width : 1100px;
     min-height : 600px;
     box-shadow : 0 0px 20px 0 rgba(0, 0, 0, 0.3);
+    padding: 20px;
 }
 
 .menubar {
@@ -136,35 +149,38 @@ textarea, input {
     display : flex;
     flex-wrap : wrap;
     align-items : center;
+    background-image : url("images/header.png");
+    background-size : 100% 100%;
 }
 
 .menubutton {
+    font-weight: bold;
     text-size : 25px;
     padding : 10px;
 }
 
 .namebutton {
     position : absolute;
-    right : 0px;
+    right : 20px;
     text-size : 25px;
+    font-weight: bold;
     padding : 10px;
 }
 
 .scheduleitem {
-    height : 40px;
+    height : 60px;
     overflow: hidden;
     cursor : pointer;
     text-align : left;
     transition: 0.3s;
-    background-color: #333344;
     display : flex;
     flex-wrap : nowrap;
     align-items : center;
-    line-height : 50px;
+    line-height : 60px;
 }
 
 .scheduleitem:hover {
-  background-color: #555588;
+  background-color: rgba(250,50,50,0.5);
 }
 
 .cell {
@@ -175,31 +191,43 @@ textarea, input {
 }
 
 .col1 {
-    background-color:  rgba( 50 , 50 , 120 , 0.5);
+    height: 100%;
+    display: inline-block;
+    vertical-align : middle;
+    background-color:  rgba( 250 , 230 , 230 , 0.5);
 }
 
 .col2 {
-    background-color:  rgba( 50 , 50 , 100 , 0.5);
+    height: 100%;
+    display: inline-block;
+    vertical-align : middle;
+    background-color:  rgba( 260 , 240 , 240 , 0.5);
 }
 
 .col3 {
-    background-color:  rgba( 80 , 60 , 120 , 0.5);
+    height : 100%;
+    display : inline-block;
+    vertical-align : middle;
+    background-color:  rgba( 200 , 180 , 180 , 0.5);
 }
 
 .col4 {
-    background-color:  rgba( 80 , 60 , 100 , 0.5);
+    height: 100%;
+    display: inline-block;
+    vertical-align : middle;
+    background-color:  rgba( 210 , 190 , 190 , 0.5);
 }
 
 .col5 {
-    background-color:  rgba( 10 , 10 , 200 , 1.0);
+    background-color:  rgba( 170 , 180 , 180 , 0.5);
 }
 
 .col6 {
-    background-color:  rgba( 20 , 20 , 150 , 1.0);
+    background-color:  rgba( 180 , 190 , 190 , 0.5);
 }
 
 .col7 {
-    background-color:  rgba( 200 , 50 , 50 , 1.0);
+    background-color:  rgba( 200 , 200 , 200 , 0.5);
 }
 
 .itembutton {
@@ -209,5 +237,5 @@ textarea, input {
 }
 
 .itembutton:hover {
-  background-color: #556688;
+  background-color: rgba(255,255,255,1.0);
 }

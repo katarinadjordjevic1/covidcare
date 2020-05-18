@@ -28,7 +28,7 @@
        [:div {:class "logininputlabel"} "Password"]
        [:input {:class "logininput" :type "text" :name "password"}]
        [:br][:br]
-       [:input {:class "center" :type "submit" :value "Submit"}]]
+       [:input {:class "center submitbtn" :type "submit" :value "Submit"}]]
       [:br][:br]
       [:div {:class "center"} "(user/user or admin/admin)"]
       ]]]))
@@ -58,8 +58,12 @@
 
 
 (defn scheduleitem [index schedule showbutton]
-  (let [username (str (get-in schedule [:helper :firstname]) " " (get-in schedule [:helper :lastname]))
-        helpeename (str (get-in schedule [:helpee :firstname]) " " (get-in schedule [:helpee :lastname]))
+  (let [user (get-in schedule [:helper :lastname])
+        helpee (get-in schedule [:helpee :lastname])
+        username (str (get-in schedule [:helper :firstname]) " " user)
+        helpeename (str (get-in schedule [:helpee :firstname]) " " helpee)
+        userurl (str "images/" (get-in schedule [:helper :picture]))
+        helpeeurl (str "images/" (get-in schedule [:helpee :picture]))
         from (.format (java.text.SimpleDateFormat. "MM/dd/yyyy hh:mm") (:fromdate schedule))
         to  (.format (java.text.SimpleDateFormat. "MM/dd/yyyy hh:mm") (:todate schedule))
         city (:city schedule)
@@ -80,16 +84,20 @@
     [:div {:class "scheduleitem"}
      [:div {:class (if (even? index) "cell col1" "cell col3")} from]
      [:div {:class (if (even? index) "cell col2" "cell col4")} to]
-     [:div {:class (if (even? index) "cell col1" "cell col3")} username]
-     [:div {:class (if (even? index) "cell col2" "cell col4")} helpeename]
+     [:div {:class (if (even? index) "cell col1" "cell col3")}
+      (if user [:img {:class "avatar" :src userurl}])
+      username]
+     [:div {:class (if (even? index) "cell col2" "cell col4")}
+      (if helpee [:img {:class "avatar" :src helpeeurl}])
+      helpeename]
      [:div {:class (if (even? index) "cell col1" "cell col3")} service]
      [:div {:class (if (even? index) "cell col1" "cell col3")} city]
      [:div {:class (if (even? index) "cell col2" "cell col4")} district]
      (if showbutton
-       [:div {:class (if (even? index) "itembutton col1" "itembutton col3")
+       [:div {:class (if (even? index) "itembutton col1" "itembutton col6")
               :onclick (str "getConfirmation(\"" popup "\",\"" url "\");")
               } label]
-       [:div {:class (if (even? index) "itembutton col1" "itembutton col3")}])]))
+       [:div {:class (if (even? index) "itembutton col1" "itembutton col6")}])]))
 
 
 (defn schedules [session]
@@ -109,17 +117,17 @@
       (include-js "popup.js")
       [:div {:class "mainpanel"}
        (menuview session)
-       [:p "Active Offers"]
+       [:p {:class "menubutton"} "Active Offers"]
        (scheduleheader)
        [:div
         (map (fn [[index schedule]] (scheduleitem index schedule true)) (map-indexed vector offers))]
-       [:p "Active Requests"]
+       [:p {:class "menubutton"} "Active Requests"]
        (scheduleheader)
        [:div
         (map (fn [[index schedule]] (scheduleitem index schedule true)) (map-indexed vector requests))]
-       [:p "Already Reserved"]
+       [:p {:class "menubutton"} "Already Reserved"]
        (scheduleheader)
-       [:div
+       [:divx
         (map (fn [[index schedule]] (scheduleitem index schedule true)) (map-indexed vector reserved))]
        ]])))
 
@@ -140,11 +148,11 @@
       [:div {:class "mainpanel"}
        (menuview session)
        [:div {:class "menubutton col1"} [:a {:href "/addoffer"} "Add Offer"]]
-       [:p "Active Offers"]
+       [:p {:class "menubutton"} "Active Offers"]
        (scheduleheader)
        [:div
         (map (fn [[index schedule]] (scheduleitem index schedule false)) (map-indexed vector offers))]
-       [:p "Already Reserved"]
+       [:p {:class "menubutton"} "Already Reserved"]
        (scheduleheader)
        [:div
         (map (fn [[index schedule]] (scheduleitem index schedule false)) (map-indexed vector reserved))]
@@ -167,11 +175,11 @@
       [:div {:class "mainpanel"}
        (menuview session)
        [:div {:class "menubutton col1"} [:a {:href "/addrequest"} "Add Request"]]
-       [:p "Active Requests"]
+       [:p {:class "menubutton"} "Active Requests"]
        (scheduleheader)
        [:div
         (map (fn [[index schedule]] (scheduleitem index schedule false)) (map-indexed vector requests))]
-       [:p "Already Reserved"]
+       [:p {:class "menubutton"} "Already Reserved"]
        (scheduleheader)
        [:div
         (map (fn [[index schedule]] (scheduleitem index schedule false)) (map-indexed vector reserved))]
@@ -188,10 +196,12 @@
    [:div {:class "itembutton col4"} "Action"]])
 
 
-(defn useritem [index {:keys [userid firstname lastname username email role]}]
+(defn useritem [index {:keys [userid firstname lastname username email role picture]}]
     [:div {:class "scheduleitem"
            :onclick (str "getConfirmation(\"Do you really want to remove user?\",\"removeuser?userid=" userid "\");")}
-     [:div {:class (if (even? index) "cell col1" "cell col3")} firstname]
+     [:div {:class (if (even? index) "cell col1" "cell col3")}
+      (if picture [:img {:class "avatar" :src (str "images/" picture)}])
+      firstname]
      [:div {:class (if (even? index) "cell col2" "cell col4")} lastname]
      [:div {:class (if (even? index) "cell col1" "cell col3")} username]
      [:div {:class (if (even? index) "cell col2" "cell col4")} email]
