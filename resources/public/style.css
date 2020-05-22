@@ -189,6 +189,7 @@ textarea, input {
     float : left;
     height : 100%;
     padding-left : 10px;
+    width : 50px;
 }
 
 .col1 {

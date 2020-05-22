@@ -18,7 +18,7 @@
     [:div {:class "loginpanel"}
      [:h1 "Covid Care"]
      [:h2 "Offer Service / Request Service"]
-     (if error [:e1 (str "Error: " error)])
+     (if error [:e1 error])
      [:form {:method "post" :action ""}
       [:br]
       [:div {:class "logininputlabel"} "Username/Email"]
@@ -29,7 +29,42 @@
       [:br][:br]
       [:input {:class "center submitbtn" :type "submit" :value "Submit"}]]
      [:br][:br]
-     [:div {:class "center"} "(user/user or admin/admin)"]]]))
+     [:div {:class "menubutton"} [:a {:href "/register"} "Register"]]
+     [:br]]]))
+
+
+(defn register [error params]
+  (html
+   [:head
+    [:title "Add New User"]
+    (include-css "style.css")
+    [:div {:class "loginpanel"}
+     [:h2 "Register"]
+     (if error [:e1 error])
+     [:form {:method "post" :action "/register"}
+      [:br]
+      [:div {:class "logininputlabel"} "Username"]
+      [:input {:class "logininput" :type "text" :name "username" :value (:username params)}]
+      [:br]
+      [:div {:class "logininputlabel"} "First Name"]
+      [:input {:class "logininput" :type "text" :name "firstname" :value (:firstname params)}]
+      [:br]
+      [:div {:class "logininputlabel"} "Last Name"]
+      [:input {:class "logininput" :type "text" :name "lastname" :value (:lastname params)}]
+      [:br]
+      [:div {:class "logininputlabel"} "Email"]
+      [:input {:class "logininput" :type "text" :name "email" :value (:email params)}]
+      [:br]
+      [:div {:class "logininputlabel"} "Picture"]
+      [:input {:class "logininput" :type "text" :name "picture" :value (or (:picture params) "profile1.jpg")}]
+      [:br]
+      [:div {:class "logininputlabel"} "Password"]
+      [:input {:class "logininput" :type "text" :name "password" :value (:password params)}]
+      [:br]
+      [:input {:class "center submitbtn" :type "submit" :value "Submit"}]
+      [:br][:br]
+      [:div {:class "ibutton center"} [:a {:href "/"} "Back To Login"]]]
+     [:br][:br]]]))
 
 
 (defn menuview [session]
@@ -193,20 +228,23 @@
    [:div {:class "cell col3"} "Username"]
    [:div {:class "cell col4"} "Email"]
    [:div {:class "cell col3"} "Role"]
-   [:div {:class "itembutton col4"} "Action"]])
+   [:div {:class "itembutton col4"} "Action"]
+   [:div {:class "itembutton col3"} "Action"]])
 
 
 (defn useritem [index {:keys [userid firstname lastname username email role picture]}]
-    [:div {:class "scheduleitem"
-           :onclick (str "getConfirmation(\"Do you really want to remove user?\",\"removeuser?userid=" userid "\");")}
-     [:div {:class (if (even? index) "cell col1" "cell col3")}
-      (if picture [:img {:class "avatar" :src (str "images/" picture)}])
-      firstname]
-     [:div {:class (if (even? index) "cell col2" "cell col4")} lastname]
-     [:div {:class (if (even? index) "cell col1" "cell col3")} username]
-     [:div {:class (if (even? index) "cell col2" "cell col4")} email]
-     [:div {:class (if (even? index) "cell col1" "cell col3")} role]
-     [:div {:class (if (even? index) "itembutton col2" "itembutton col4")} "Delete"]])
+  [:div {:class "scheduleitem"}
+   [:div {:class (if (even? index) "cell col1" "cell col3")}
+    (if picture [:img {:class "avatar" :src (str "images/" picture)}])
+    firstname]
+   [:div {:class (if (even? index) "cell col2" "cell col4")} lastname]
+   [:div {:class (if (even? index) "cell col1" "cell col3")} username]
+   [:div {:class (if (even? index) "cell col2" "cell col4")} email]
+   [:div {:class (if (even? index) "cell col1" "cell col3")} role]
+   [:a {:class (if (even? index) "itembutton col2" "itembutton col4") :href (str "/edituser?userid=" userid)} "Edit"]
+   [:div {:class (if (even? index) "itembutton col2" "itembutton col4")
+          :onclick (str "getConfirmation(\"Do you really want to remove user?\",\"removeuser?userid=" userid "\");")}
+    "Delete"]])
 
 
 (defn admin [session]
@@ -227,64 +265,68 @@
      ]])))
 
 
-(defn adduser [session]
+(defn adduser [error params]
   (html
    [:head
-    [:title "Add New User"]
+    [:title "Add/Edit User"]
     (include-css "style.css")
     [:div {:class "loginpanel"}
+     [:h2 "Add/Edit User"]
+     (if error [:e1 error])
      [:form {:method "post" :action "/adduser"}
       [:br]
       [:div {:class "logininputlabel"} "Username"]
-      [:input {:class "logininput" :type "text" :name "username"}]
+      [:input {:class "logininput" :type "text" :name "username" :value (:username params)}]
       [:br]
       [:div {:class "logininputlabel"} "First Name"]
-      [:input {:class "logininput" :type "text" :name "firstname"}]
+      [:input {:class "logininput" :type "text" :name "firstname" :value (:firstname params)}]
       [:br]
       [:div {:class "logininputlabel"} "Last Name"]
-      [:input {:class "logininput" :type "text" :name "lastname"}]
+      [:input {:class "logininput" :type "text" :name "lastname" :value (:lastname params)}]
       [:br]
       [:div {:class "logininputlabel"} "Email"]
-      [:input {:class "logininput" :type "text" :name "email"}]
+      [:input {:class "logininput" :type "text" :name "email" :value (:email params)}]
       [:br]
       [:div {:class "logininputlabel"} "Role"]
-      [:input {:class "logininput" :type "text" :name "role"}]
+      [:input {:class "logininput" :type "text" :name "role" :value (:role params)}]
       [:br]
       [:div {:class "logininputlabel"} "Picture"]
-      [:input {:class "logininput" :type "text" :name "picture"}]
+      [:input {:class "logininput" :type "text" :name "picture" :value (or (:picture params) "profile1.jpg")}]
       [:br]
       [:div {:class "logininputlabel"} "Password"]
-      [:input {:class "logininput" :type "text" :name "password"}]
+      [:input {:class "logininput" :type "text" :name "password" :value (:password params)}]
       [:br]
       [:input {:class "center" :type "submit" :value "Submit"}]
       [:br][:br]
-      [:div {:class "ibutton center"} [:a {:href "/admin"} "Cancel"]]]
+      [:div {:class "ibutton center"} [:a {:href "/admin"} "Back to Users"]]]
      [:br][:br]]]))
 
 
-(defn addoffer [session]
+(defn addoffer [error params]
   (html
    [:head
     [:title "Add New Offer"]
     (include-css "style.css")
     [:div {:class "loginpanel"}
+     [:h2 "Add Offer"]
+     (if error [:e1 error])
      [:form {:method "post" :action "/addoffer"}
       [:br]
       [:div {:class "logininputlabel"} "From Date/Time"]
-      [:input {:class "logininput" :type "text" :name "fromdate" :value "2020-05-01"}]
+      [:input {:class "logininput" :type "text" :name "fromdate" :value (or (:fromdate params) "2020-05-01")}]
       [:br]
       [:div {:class "logininputlabel"} "Until Date/Time"]
-      [:input {:class "logininput" :type "text" :name "todate" :value "2020-05-01"}]
+      [:input {:class "logininput" :type "text" :name "todate" :value (or (:todate params) "2020-05-01")}]
       [:br]
       [:div {:class "logininputlabel"} "City"]
-      [:input {:class "logininput" :type "text" :name "city"}]
+      [:input {:class "logininput" :type "text" :name "city" :value (:city params)}]
       [:br]
       [:div {:class "logininputlabel"} "District"]
-      [:input {:class "logininput" :type "text" :name "district"}]
+      [:input {:class "logininput" :type "text" :name "district" :value (:district params)}]
       [:br]
-      [:select {:class "center" :id "service" :name "service"}
-       [:option {:value "Groceries"} "Grocieries"]
-       [:option {:value "Walk" :selected "" } "Walk"]
+      [:select {:class "center" :id "service" :name "service" :value (or (:service params) "Groceries")}
+       [:option {:value "Groceries"} "Groceries"]
+       [:option {:value "Walk" } "Walk"]
        [:option {:value "Walking the dog"} "Walking the dog"]
        [:option {:value "Cleaning"} "Cleaning"]
        [:option {:value "Cut grass"} "Cut grass"]]
@@ -297,29 +339,31 @@
      ]]))
 
 
-(defn addrequest [session]
+(defn addrequest [error params]
   (html
    [:head
     [:title "Add New Request"]
     (include-css "style.css")
     [:div {:class "loginpanel"}
+     [:h2 "Add Request"]
+     (if error [:e1 error])
      [:form {:method "post" :action "/addrequest"}
       [:br]
       [:div {:class "logininputlabel"} "From Date/Time"]
-      [:input {:class "logininput" :type "text" :name "fromdate" :value "2020-05-01"}]
+      [:input {:class "logininput" :type "text" :name "fromdate" :value (or (:fromdate params) "2020-05-01")}]
       [:br]
       [:div {:class "logininputlabel"} "Until Date/Time"]
-      [:input {:class "logininput" :type "text" :name "todate" :value "2020-05-01"}]
+      [:input {:class "logininput" :type "text" :name "todate" :value (or (:todate params) "2020-05-01")}]
       [:br]
       [:div {:class "logininputlabel"} "City"]
-      [:input {:class "logininput" :type "text" :name "city"}]
+      [:input {:class "logininput" :type "text" :name "city" :value (:city params)}]
       [:br]
       [:div {:class "logininputlabel"} "District"]
-      [:input {:class "logininput" :type "text" :name "district"}]
+      [:input {:class "logininput" :type "text" :name "district" :value (:district params)}]
       [:br]
-      [:select {:class "center" :id "service" :name "service"}
-       [:option {:value "Groceries"} "Grocieries"]
-       [:option {:value "Walk" :selected "" } "Walk"]
+      [:select {:class "center" :id "service" :name "service" :value (or (:service params) "Groceries")}
+       [:option {:value "Groceries"} "Groceries"]
+       [:option {:value "Walk" } "Walk"]
        [:option {:value "Walking the dog"} "Walking the dog"]
        [:option {:value "Cleaning"} "Cleaning"]
        [:option {:value "Cut grass"} "Cut grass"]]
