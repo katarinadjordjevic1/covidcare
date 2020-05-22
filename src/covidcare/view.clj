@@ -97,8 +97,8 @@
         helpeename (str (get-in schedule [:helpee :firstname]) " " helpee)
         userurl (str "images/" (get-in schedule [:helper :picture]))
         helpeeurl (str "images/" (get-in schedule [:helpee :picture]))
-        from (.format (java.text.SimpleDateFormat. "MM/dd/yyyy hh:mm") (:fromdate schedule))
-        to  (.format (java.text.SimpleDateFormat. "MM/dd/yyyy hh:mm") (:todate schedule))
+        from (.format (java.text.SimpleDateFormat. "MM/dd/yyyy") (:fromdate schedule))
+        to  (.format (java.text.SimpleDateFormat. "MM/dd/yyyy") (:todate schedule))
         city (:city schedule)
         district (:district schedule)
         service (:service schedule)
@@ -273,7 +273,8 @@
     [:div {:class "loginpanel"}
      [:h2 "Add/Edit User"]
      (if error [:e1 error])
-     [:form {:method "post" :action "/adduser"}
+     [:form {:method "post" :action (if params "/updateuser" "/adduser")}
+      (if params [:input {:type "hidden" :name "userid" :value (:userid params)}])
       [:br]
       [:div {:class "logininputlabel"} "Username"]
       [:input {:class "logininput" :type "text" :name "username" :value (:username params)}]

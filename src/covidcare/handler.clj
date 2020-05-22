@@ -23,18 +23,13 @@
   (fn [request]
     (if (authenticated? request)
       (handler request)
-      (do
-        (println "NOT AUTH" request)
-        (assoc (redirect "/") :session {}))
-     )))
+      (assoc (redirect "/") :session {}))))
 
 (defn wrap-must-be-admin [handler]
   (fn [request]
     (if (and (authenticated? request) (= "admin" (get-in request [:identity :role])))
       (handler request)
-      (do
-        (println "NOT ADMIN" handler request)
-        (assoc (redirect "/") :session {})))))
+      (assoc (redirect "/") :session {}))))
 
 
 (defn req-res-displayer [handler]

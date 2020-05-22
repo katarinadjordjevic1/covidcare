@@ -32,6 +32,11 @@
 (defn delete-user [params]
   (k/delete user (k/where params)))
 
+(defn update-user [params]
+  (k/update user
+            (k/set-fields params)
+            (k/where {:userid (:userid params)})))
+
 (defn add-schedule [params]
   (k/insert schedule (k/values params)))
 
